@@ -1,19 +1,22 @@
 from ultralytics import YOLO
 
 def run():
-    # Load your trained weights instead of starting training
-    model = YOLO("runs/detect/train/weights/last.pt")
+    # Load your trained model
+    model = YOLO("C:\\Users\\abhay\\OneDrive\\Desktop\\pyhtonfordrone\\runs\\detect\\train5\\weights\\best.pt")
     
-    # Validate performance
-    metrics = model.val()
-    print(metrics)
+    # Validate (optional)
+    # metrics = model.val()
+    # print(metrics)
 
-    # Run prediction on an image
-    results = model("C:/drone work/test1.jpg")
-    results[0].show()
-
-    # Or run live webcam detection
-    # results = model.predict(source="D:/testvid.mp4", show=True)
+    # 🔥 Run prediction on a video
+    results = model.predict(
+        source="C:/drone work/testvid.mp4",  # <-- your video path
+        show=True,          # show a live window
+        save=True,          # save output video in runs/detect/predict
+        conf=0.25,          # confidence threshold
+        imgsz=640,          # image size for detection
+        device=0            # use GPU
+    )
 
 if __name__ == "__main__":
     run()

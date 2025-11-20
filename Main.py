@@ -2,17 +2,24 @@ from ultralytics import YOLO
 
 def run():
     # Load model
-    model = YOLO("yolov8n.pt")
+    model = YOLO("C:\\Users\\abhay\\OneDrive\\Desktop\\pyhtonfordrone\\runs\\detect\\train4\\weights\\best.pt")
 
     # Train
     model.train(
-        data="C:/datasets/cars_tanks/data.yaml",
-    epochs=100,
-    imgsz=512,
+        data="D:/Military and Civilian Vehicles Classification/data.yaml",
+    epochs=150,
+    imgsz=640,
     batch=4,
     device=0,
-    workers=1,
-    mosaic=0  # or 0 if GPU is detected
+    workers=2,
+    mosaic=1,       # IMPORTANT for small object accuracy
+    hsv_h=0.015,    # color augmentations help generalization
+    hsv_s=0.7,
+    hsv_v=0.4,
+    translate=0.1,
+    scale=0.9,
+    fliplr=0.5,
+    cache=True 
     )
 
     # Validate
@@ -21,7 +28,7 @@ def run():
 
     # Predict
     results = model("C:/drone work/test.jpg")
-    results.show()
+    results[0].show()
 
 if __name__ == "__main__":
     run()
